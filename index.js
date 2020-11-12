@@ -76,28 +76,34 @@ class Person {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-class Car{
-  constructor(model,milesPerGallon){
-    this.model=model;
-    this.milesPerGallon=milesPerGallon;
-    this.tank=0;
-    this.odometer=0;
+class Car {
+  constructor(model, mpg){
+    this.tank = 0;
+    this.odometer = 0;
+    this.model = model;
+    this.milesPerGallon= mpg;
   }
+
   fill(gallons){
-    this.tank+=gallons;
+    this.tank += gallons;
   }
-  drive(distance){
-    let range = this.tank*this.milesPerGallon;
-    if(range<=distance){
-      this.tank-=distance/this.milesPerGallon;
-      this.odometer+=distance;
-    }
-    else if(range>distance){
-      this.odometer+=range;
-      this.tank-=range/this.milesPerGallon;
-      return (`I ran out of fuel at ${this.odometer} miles!`)
+
+  drive(distance, fuel){
+    this.odometer += distance;
+    this.tank -= distance / this.milesPerGallon;
+    
+    if (this.tank <= 0){
+      this.tank = 0
+      this.odometer -= 1
+      
+      console.log(this.odometer)
+      console.log(this.tank)
+      console.log (distance)
+      return `I ran out of fuel at ${this.odometer} miles`
     }
   }
+  
+
 }
 
 /*
@@ -167,22 +173,26 @@ class Instructor extends Lambdasian{
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
-class Student extends Lambdasian{
-  constructor(student_attributes){
-    super(student_attributes)
-    this.previousBackground=student_attributes.previousBackground;
-    this.className=student_attributes.className;
-    this.favSubjects=student_attributes.favSubject;
+class Student extends Lambdasian {
+  constructor(attrs1){
+    super(attrs1)
+      this.previousBackground =attrs1.previousBackground;
+      this.className = attrs1.className;
+      this.favSubjects = attrs1.favSubjects;
+      
   }
-  listSubjects(){
-    return `Loving ${this.favSubjects}`
-  }
-  PRAssignment(subject){
-    return `${this.name} has submitted PR for ${subject}`
-  }
-  sprintChallenge(subject){
-    return `${this.name} has begun sprint challenge on ${subject}`
-  }
+    listSubjects(){
+      return `${this.favSubjects}`
+    }
+
+    PRAssignment(subject){
+      return `${this.name} has submitted a PR for ${subject}`
+    }
+
+    sprintChallenge(subject){
+      return `${this.name} has begun sprint challenge on ${subject}`
+    }
+
 }
 
 /*
@@ -198,17 +208,19 @@ class Student extends Lambdasian{
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager extends Instructor {
-  constructor(projectmanager_attributes){
-    super(projectmanager_attributes)
-    this.gradClassName = projectmanager_attributes.gradClassName,
-    this.favInstructor = projectmanager_attributes.favInstructor
+class ProjectManager extends Instructor{
+  constructor(attrs2){
+    super(attrs2)
+    this.gradClassName = attrs2.gradClassName;
+    this.favInstructor = attrs2.favInstructor;
   }
+
   standUp(channel){
     return `${this.name} announces to ${channel}, @channel standy times!`
   }
-  debugsCode(stdObj, subObj){
-    return `${this.name} debugs ${stdObj.name}'s code on ${subObj} `
+
+  debugsCode(student, subject){
+    return `${this.name} debugs ${student.name}'s code on ${subject}`
   }
 }
 
